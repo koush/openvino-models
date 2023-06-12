@@ -10421,7 +10421,6 @@
 			<model_name value="ssdlite_mobilenet_v2" />
 			<output value="detection_scores,detection_boxes,num_detections" />
 			<output_dir value="DIR" />
-			<reverse_input_channels value="True" />
 			<tensorflow_object_detection_api_pipeline_config value="DIR/pipeline.config" />
 			<transformations_config value="DIR/ssd_v2_support.json" />
 		</conversion_parameters>

@@ -6515,7 +6515,6 @@
 			<model_name value="ssd_mobilenet_v1_coco" />
 			<output value="detection_scores,detection_boxes,num_detections" />
 			<output_dir value="/private/tmp/work/open_model_zoo/demos/object_detection_demo/python/public/ssd_mobilenet_v1_coco/FP32" />
-			<reverse_input_channels value="True" />
 			<tensorflow_object_detection_api_pipeline_config value="DIR/pipeline.config" />
 			<transformations_config value="DIR/ssd_v2_support.json" />
 		</conversion_parameters>
