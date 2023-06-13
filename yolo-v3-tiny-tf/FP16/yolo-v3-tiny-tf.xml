@@ -1,0 +1,2649 @@
+<?xml version="1.0"?>
+<net name="yolo-v3-tiny-tf" version="11">
+	<layers>
+		<layer id="0" name="image_input" type="Parameter" version="opset1">
+			<data shape="1,416,416,3" element_type="f32" />
+			<rt_info>
+				<attribute name="old_api_map_element_type" version="0" value="f16" />
+				<attribute name="old_api_map_order" version="0" value="0, 2, 3, 1" />
+			</rt_info>
+			<output>
+				<port id="0" precision="FP32" names="image_input,image_input:0">
+					<dim>1</dim>
+					<dim>416</dim>
+					<dim>416</dim>
+					<dim>3</dim>
+					<rt_info>
+						<attribute name="layout" version="0" layout="[N,H,W,C]" />
+					</rt_info>
+				</port>
+			</output>
+		</layer>
+		<layer id="1" name="image_input/Transpose([0 3 1 2])/value30394494" type="Const" version="opset1">
+			<data element_type="i64" shape="4" offset="0" size="32" />
+			<output>
+				<port id="0" precision="I64">
+					<dim>4</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="2" name="Divide_231" type="Transpose" version="opset1">
+			<rt_info>
+				<attribute name="preprocessing" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>416</dim>
+					<dim>416</dim>
+					<dim>3</dim>
+				</port>
+				<port id="1" precision="I64">
+					<dim>4</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32">
+					<dim>1</dim>
+					<dim>3</dim>
+					<dim>416</dim>
+					<dim>416</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="3" name="Constant_1385_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="16, 3, 3, 3" offset="32" size="864" />
+			<rt_info>
+				<attribute name="preprocessing" version="0" />
+			</rt_info>
+			<output>
+				<port id="0" precision="FP16">
+					<dim>16</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="4" name="Constant_1385" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+				<attribute name="preprocessing" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>16</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32">
+					<dim>16</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="5" name="conv2d/Conv2D" type="Convolution" version="opset1">
+			<data strides="1, 1" dilations="1, 1" pads_begin="0, 0" pads_end="0, 0" auto_pad="same_upper" />
+			<rt_info>
+				<attribute name="preprocessing" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>3</dim>
+					<dim>416</dim>
+					<dim>416</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>16</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32">
+					<dim>1</dim>
+					<dim>16</dim>
+					<dim>416</dim>
+					<dim>416</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="6" name="data_add_2326_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="1, 16, 1, 1" offset="896" size="32" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>16</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="7" name="data_add_2326" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>16</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>16</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="8" name="batch_normalization/FusedBatchNorm/variance/Fused_Add_" type="Add" version="opset1">
+			<data auto_broadcast="numpy" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>16</dim>
+					<dim>416</dim>
+					<dim>416</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>16</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="batch_normalization/FusedBatchNorm:0">
+					<dim>1</dim>
+					<dim>16</dim>
+					<dim>416</dim>
+					<dim>416</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="9" name="leaky_re_lu/LeakyRelu/weights32244380_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="1" offset="928" size="2" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="10" name="leaky_re_lu/LeakyRelu/weights32244380" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="11" name="leaky_re_lu/LeakyRelu" type="PReLU" version="opset1">
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>16</dim>
+					<dim>416</dim>
+					<dim>416</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="leaky_re_lu/LeakyRelu:0">
+					<dim>1</dim>
+					<dim>16</dim>
+					<dim>416</dim>
+					<dim>416</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="12" name="max_pooling2d/MaxPool" type="MaxPool" version="opset8">
+			<data strides="2, 2" dilations="1, 1" pads_begin="0, 0" pads_end="0, 0" kernel="2, 2" rounding_type="floor" auto_pad="same_upper" index_element_type="i64" axis="0" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>16</dim>
+					<dim>416</dim>
+					<dim>416</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="max_pooling2d/MaxPool:0">
+					<dim>1</dim>
+					<dim>16</dim>
+					<dim>208</dim>
+					<dim>208</dim>
+				</port>
+				<port id="2" precision="I64">
+					<dim>1</dim>
+					<dim>16</dim>
+					<dim>208</dim>
+					<dim>208</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="13" name="batch_normalization_1/FusedBatchNorm/mean/Fused_Mul__copy_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="32, 16, 3, 3" offset="930" size="9216" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>32</dim>
+					<dim>16</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="14" name="batch_normalization_1/FusedBatchNorm/mean/Fused_Mul__copy" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>32</dim>
+					<dim>16</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="conv2d_1/Conv2D/ReadVariableOp:0">
+					<dim>32</dim>
+					<dim>16</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="15" name="conv2d_1/Conv2D" type="Convolution" version="opset1">
+			<data strides="1, 1" dilations="1, 1" pads_begin="0, 0" pads_end="0, 0" auto_pad="same_upper" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>16</dim>
+					<dim>208</dim>
+					<dim>208</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>32</dim>
+					<dim>16</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>208</dim>
+					<dim>208</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="16" name="data_add_23292334_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="1, 32, 1, 1" offset="10146" size="64" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="17" name="data_add_23292334" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="18" name="batch_normalization_1/FusedBatchNorm/variance/Fused_Add_" type="Add" version="opset1">
+			<data auto_broadcast="numpy" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>208</dim>
+					<dim>208</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="batch_normalization_1/FusedBatchNorm:0">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>208</dim>
+					<dim>208</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="19" name="leaky_re_lu_1/LeakyRelu/weights32444374_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="1" offset="928" size="2" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="20" name="leaky_re_lu_1/LeakyRelu/weights32444374" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="21" name="leaky_re_lu_1/LeakyRelu" type="PReLU" version="opset1">
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>208</dim>
+					<dim>208</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="leaky_re_lu_1/LeakyRelu:0">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>208</dim>
+					<dim>208</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="22" name="max_pooling2d_1/MaxPool" type="MaxPool" version="opset8">
+			<data strides="2, 2" dilations="1, 1" pads_begin="0, 0" pads_end="0, 0" kernel="2, 2" rounding_type="floor" auto_pad="same_upper" index_element_type="i64" axis="0" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>208</dim>
+					<dim>208</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="max_pooling2d_1/MaxPool:0">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>104</dim>
+					<dim>104</dim>
+				</port>
+				<port id="2" precision="I64">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>104</dim>
+					<dim>104</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="23" name="batch_normalization_2/FusedBatchNorm/mean/Fused_Mul__copy_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="64, 32, 3, 3" offset="10210" size="36864" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>64</dim>
+					<dim>32</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="24" name="batch_normalization_2/FusedBatchNorm/mean/Fused_Mul__copy" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>64</dim>
+					<dim>32</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="conv2d_2/Conv2D/ReadVariableOp:0">
+					<dim>64</dim>
+					<dim>32</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="25" name="conv2d_2/Conv2D" type="Convolution" version="opset1">
+			<data strides="1, 1" dilations="1, 1" pads_begin="0, 0" pads_end="0, 0" auto_pad="same_upper" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>104</dim>
+					<dim>104</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>64</dim>
+					<dim>32</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>104</dim>
+					<dim>104</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="26" name="data_add_23372342_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="1, 64, 1, 1" offset="47074" size="128" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="27" name="data_add_23372342" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="28" name="batch_normalization_2/FusedBatchNorm/variance/Fused_Add_" type="Add" version="opset1">
+			<data auto_broadcast="numpy" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>104</dim>
+					<dim>104</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="batch_normalization_2/FusedBatchNorm:0">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>104</dim>
+					<dim>104</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="29" name="leaky_re_lu_2/LeakyRelu/weights32484368_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="1" offset="928" size="2" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="30" name="leaky_re_lu_2/LeakyRelu/weights32484368" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="31" name="leaky_re_lu_2/LeakyRelu" type="PReLU" version="opset1">
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>104</dim>
+					<dim>104</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="leaky_re_lu_2/LeakyRelu:0">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>104</dim>
+					<dim>104</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="32" name="max_pooling2d_2/MaxPool" type="MaxPool" version="opset8">
+			<data strides="2, 2" dilations="1, 1" pads_begin="0, 0" pads_end="0, 0" kernel="2, 2" rounding_type="floor" auto_pad="same_upper" index_element_type="i64" axis="0" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>104</dim>
+					<dim>104</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="max_pooling2d_2/MaxPool:0">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>52</dim>
+					<dim>52</dim>
+				</port>
+				<port id="2" precision="I64">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>52</dim>
+					<dim>52</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="33" name="batch_normalization_3/FusedBatchNorm/mean/Fused_Mul__copy_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="128, 64, 3, 3" offset="47202" size="147456" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>128</dim>
+					<dim>64</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="34" name="batch_normalization_3/FusedBatchNorm/mean/Fused_Mul__copy" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>128</dim>
+					<dim>64</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="conv2d_3/Conv2D/ReadVariableOp:0">
+					<dim>128</dim>
+					<dim>64</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="35" name="conv2d_3/Conv2D" type="Convolution" version="opset1">
+			<data strides="1, 1" dilations="1, 1" pads_begin="0, 0" pads_end="0, 0" auto_pad="same_upper" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>52</dim>
+					<dim>52</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>128</dim>
+					<dim>64</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32">
+					<dim>1</dim>
+					<dim>128</dim>
+					<dim>52</dim>
+					<dim>52</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="36" name="data_add_23452350_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="1, 128, 1, 1" offset="194658" size="256" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>128</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="37" name="data_add_23452350" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>128</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>128</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="38" name="batch_normalization_3/FusedBatchNorm/variance/Fused_Add_" type="Add" version="opset1">
+			<data auto_broadcast="numpy" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>128</dim>
+					<dim>52</dim>
+					<dim>52</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>128</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="batch_normalization_3/FusedBatchNorm:0">
+					<dim>1</dim>
+					<dim>128</dim>
+					<dim>52</dim>
+					<dim>52</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="39" name="leaky_re_lu_3/LeakyRelu/weights32164509_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="1" offset="928" size="2" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="40" name="leaky_re_lu_3/LeakyRelu/weights32164509" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="41" name="leaky_re_lu_3/LeakyRelu" type="PReLU" version="opset1">
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>128</dim>
+					<dim>52</dim>
+					<dim>52</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="leaky_re_lu_3/LeakyRelu:0">
+					<dim>1</dim>
+					<dim>128</dim>
+					<dim>52</dim>
+					<dim>52</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="42" name="max_pooling2d_3/MaxPool" type="MaxPool" version="opset8">
+			<data strides="2, 2" dilations="1, 1" pads_begin="0, 0" pads_end="0, 0" kernel="2, 2" rounding_type="floor" auto_pad="same_upper" index_element_type="i64" axis="0" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>128</dim>
+					<dim>52</dim>
+					<dim>52</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="max_pooling2d_3/MaxPool:0">
+					<dim>1</dim>
+					<dim>128</dim>
+					<dim>26</dim>
+					<dim>26</dim>
+				</port>
+				<port id="2" precision="I64">
+					<dim>1</dim>
+					<dim>128</dim>
+					<dim>26</dim>
+					<dim>26</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="43" name="batch_normalization_4/FusedBatchNorm/mean/Fused_Mul__copy_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="256, 128, 3, 3" offset="194914" size="589824" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>256</dim>
+					<dim>128</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="44" name="batch_normalization_4/FusedBatchNorm/mean/Fused_Mul__copy" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>256</dim>
+					<dim>128</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="conv2d_4/Conv2D/ReadVariableOp:0">
+					<dim>256</dim>
+					<dim>128</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="45" name="conv2d_4/Conv2D" type="Convolution" version="opset1">
+			<data strides="1, 1" dilations="1, 1" pads_begin="0, 0" pads_end="0, 0" auto_pad="same_upper" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>128</dim>
+					<dim>26</dim>
+					<dim>26</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>256</dim>
+					<dim>128</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>26</dim>
+					<dim>26</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="46" name="data_add_23532358_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="1, 256, 1, 1" offset="784738" size="512" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="47" name="data_add_23532358" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="48" name="batch_normalization_4/FusedBatchNorm/variance/Fused_Add_" type="Add" version="opset1">
+			<data auto_broadcast="numpy" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>26</dim>
+					<dim>26</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="batch_normalization_4/FusedBatchNorm:0">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>26</dim>
+					<dim>26</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="49" name="leaky_re_lu_4/LeakyRelu/weights32204443_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="1" offset="928" size="2" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="50" name="leaky_re_lu_4/LeakyRelu/weights32204443" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="51" name="leaky_re_lu_4/LeakyRelu" type="PReLU" version="opset1">
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>26</dim>
+					<dim>26</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="leaky_re_lu_4/LeakyRelu:0">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>26</dim>
+					<dim>26</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="52" name="max_pooling2d_4/MaxPool" type="MaxPool" version="opset8">
+			<data strides="2, 2" dilations="1, 1" pads_begin="0, 0" pads_end="0, 0" kernel="2, 2" rounding_type="floor" auto_pad="same_upper" index_element_type="i64" axis="0" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>26</dim>
+					<dim>26</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="max_pooling2d_4/MaxPool:0">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>13</dim>
+					<dim>13</dim>
+				</port>
+				<port id="2" precision="I64">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>13</dim>
+					<dim>13</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="53" name="batch_normalization_5/FusedBatchNorm/mean/Fused_Mul__copy_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="512, 256, 3, 3" offset="785250" size="2359296" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>512</dim>
+					<dim>256</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="54" name="batch_normalization_5/FusedBatchNorm/mean/Fused_Mul__copy" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>512</dim>
+					<dim>256</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="conv2d_5/Conv2D/ReadVariableOp:0">
+					<dim>512</dim>
+					<dim>256</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="55" name="conv2d_5/Conv2D" type="Convolution" version="opset1">
+			<data strides="1, 1" dilations="1, 1" pads_begin="0, 0" pads_end="0, 0" auto_pad="same_upper" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>13</dim>
+					<dim>13</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>512</dim>
+					<dim>256</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32">
+					<dim>1</dim>
+					<dim>512</dim>
+					<dim>13</dim>
+					<dim>13</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="56" name="data_add_23612366_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="1, 512, 1, 1" offset="3144546" size="1024" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>512</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="57" name="data_add_23612366" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>512</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>512</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="58" name="batch_normalization_5/FusedBatchNorm/variance/Fused_Add_" type="Add" version="opset1">
+			<data auto_broadcast="numpy" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>512</dim>
+					<dim>13</dim>
+					<dim>13</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>512</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="batch_normalization_5/FusedBatchNorm:0">
+					<dim>1</dim>
+					<dim>512</dim>
+					<dim>13</dim>
+					<dim>13</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="59" name="leaky_re_lu_5/LeakyRelu/weights32124479_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="1" offset="928" size="2" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="60" name="leaky_re_lu_5/LeakyRelu/weights32124479" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="61" name="leaky_re_lu_5/LeakyRelu" type="PReLU" version="opset1">
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>512</dim>
+					<dim>13</dim>
+					<dim>13</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="leaky_re_lu_5/LeakyRelu:0">
+					<dim>1</dim>
+					<dim>512</dim>
+					<dim>13</dim>
+					<dim>13</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="62" name="max_pooling2d_5/MaxPool" type="MaxPool" version="opset8">
+			<data strides="1, 1" dilations="1, 1" pads_begin="0, 0" pads_end="0, 0" kernel="2, 2" rounding_type="floor" auto_pad="same_upper" index_element_type="i64" axis="0" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>512</dim>
+					<dim>13</dim>
+					<dim>13</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="max_pooling2d_5/MaxPool:0">
+					<dim>1</dim>
+					<dim>512</dim>
+					<dim>13</dim>
+					<dim>13</dim>
+				</port>
+				<port id="2" precision="I64">
+					<dim>1</dim>
+					<dim>512</dim>
+					<dim>13</dim>
+					<dim>13</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="63" name="batch_normalization_6/FusedBatchNorm/mean/Fused_Mul__copy_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="1024, 512, 3, 3" offset="3145570" size="9437184" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>1024</dim>
+					<dim>512</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="64" name="batch_normalization_6/FusedBatchNorm/mean/Fused_Mul__copy" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>1024</dim>
+					<dim>512</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="conv2d_6/Conv2D/ReadVariableOp:0">
+					<dim>1024</dim>
+					<dim>512</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="65" name="conv2d_6/Conv2D" type="Convolution" version="opset1">
+			<data strides="1, 1" dilations="1, 1" pads_begin="0, 0" pads_end="0, 0" auto_pad="same_upper" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>512</dim>
+					<dim>13</dim>
+					<dim>13</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>1024</dim>
+					<dim>512</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32">
+					<dim>1</dim>
+					<dim>1024</dim>
+					<dim>13</dim>
+					<dim>13</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="66" name="data_add_23692374_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="1, 1024, 1, 1" offset="12582754" size="2048" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>1024</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="67" name="data_add_23692374" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>1024</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>1024</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="68" name="batch_normalization_6/FusedBatchNorm/variance/Fused_Add_" type="Add" version="opset1">
+			<data auto_broadcast="numpy" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>1024</dim>
+					<dim>13</dim>
+					<dim>13</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>1024</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="batch_normalization_6/FusedBatchNorm:0">
+					<dim>1</dim>
+					<dim>1024</dim>
+					<dim>13</dim>
+					<dim>13</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="69" name="leaky_re_lu_6/LeakyRelu/weights32284470_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="1" offset="928" size="2" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="70" name="leaky_re_lu_6/LeakyRelu/weights32284470" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="71" name="leaky_re_lu_6/LeakyRelu" type="PReLU" version="opset1">
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>1024</dim>
+					<dim>13</dim>
+					<dim>13</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="leaky_re_lu_6/LeakyRelu:0">
+					<dim>1</dim>
+					<dim>1024</dim>
+					<dim>13</dim>
+					<dim>13</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="72" name="batch_normalization_7/FusedBatchNorm/mean/Fused_Mul__copy_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="256, 1024, 1, 1" offset="12584802" size="524288" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>256</dim>
+					<dim>1024</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="73" name="batch_normalization_7/FusedBatchNorm/mean/Fused_Mul__copy" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>256</dim>
+					<dim>1024</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="conv2d_7/Conv2D/ReadVariableOp:0">
+					<dim>256</dim>
+					<dim>1024</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="74" name="conv2d_7/Conv2D" type="Convolution" version="opset1">
+			<data strides="1, 1" dilations="1, 1" pads_begin="0, 0" pads_end="0, 0" auto_pad="same_upper" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>1024</dim>
+					<dim>13</dim>
+					<dim>13</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>256</dim>
+					<dim>1024</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>13</dim>
+					<dim>13</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="75" name="data_add_23772382_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="1, 256, 1, 1" offset="13109090" size="512" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="76" name="data_add_23772382" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="77" name="batch_normalization_7/FusedBatchNorm/variance/Fused_Add_" type="Add" version="opset1">
+			<data auto_broadcast="numpy" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>13</dim>
+					<dim>13</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="batch_normalization_7/FusedBatchNorm:0">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>13</dim>
+					<dim>13</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="78" name="leaky_re_lu_7/LeakyRelu/weights32364392_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="1" offset="928" size="2" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="79" name="leaky_re_lu_7/LeakyRelu/weights32364392" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="80" name="leaky_re_lu_7/LeakyRelu" type="PReLU" version="opset1">
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>13</dim>
+					<dim>13</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="leaky_re_lu_7/LeakyRelu:0">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>13</dim>
+					<dim>13</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="81" name="batch_normalization_8/FusedBatchNorm/mean/Fused_Mul__copy_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="512, 256, 3, 3" offset="13109602" size="2359296" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>512</dim>
+					<dim>256</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="82" name="batch_normalization_8/FusedBatchNorm/mean/Fused_Mul__copy" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>512</dim>
+					<dim>256</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="conv2d_8/Conv2D/ReadVariableOp:0">
+					<dim>512</dim>
+					<dim>256</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="83" name="conv2d_8/Conv2D" type="Convolution" version="opset1">
+			<data strides="1, 1" dilations="1, 1" pads_begin="0, 0" pads_end="0, 0" auto_pad="same_upper" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>13</dim>
+					<dim>13</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>512</dim>
+					<dim>256</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32">
+					<dim>1</dim>
+					<dim>512</dim>
+					<dim>13</dim>
+					<dim>13</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="84" name="data_add_23852390_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="1, 512, 1, 1" offset="15468898" size="1024" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>512</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="85" name="data_add_23852390" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>512</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>512</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="86" name="batch_normalization_8/FusedBatchNorm/variance/Fused_Add_" type="Add" version="opset1">
+			<data auto_broadcast="numpy" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>512</dim>
+					<dim>13</dim>
+					<dim>13</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>512</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="batch_normalization_8/FusedBatchNorm:0">
+					<dim>1</dim>
+					<dim>512</dim>
+					<dim>13</dim>
+					<dim>13</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="87" name="leaky_re_lu_8/LeakyRelu/weights32524371_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="1" offset="928" size="2" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="88" name="leaky_re_lu_8/LeakyRelu/weights32524371" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="89" name="leaky_re_lu_8/LeakyRelu" type="PReLU" version="opset1">
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>512</dim>
+					<dim>13</dim>
+					<dim>13</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="leaky_re_lu_8/LeakyRelu:0">
+					<dim>1</dim>
+					<dim>512</dim>
+					<dim>13</dim>
+					<dim>13</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="90" name="conv2d_9/Conv2D/ReadVariableOp_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="255, 512, 1, 1" offset="15469922" size="261120" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>255</dim>
+					<dim>512</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="91" name="conv2d_9/Conv2D/ReadVariableOp" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>255</dim>
+					<dim>512</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="conv2d_9/Conv2D/ReadVariableOp:0">
+					<dim>255</dim>
+					<dim>512</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="92" name="conv2d_9/Conv2D" type="Convolution" version="opset1">
+			<data strides="1, 1" dilations="1, 1" pads_begin="0, 0" pads_end="0, 0" auto_pad="same_upper" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>512</dim>
+					<dim>13</dim>
+					<dim>13</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>255</dim>
+					<dim>512</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="conv2d_9/Conv2D:0">
+					<dim>1</dim>
+					<dim>255</dim>
+					<dim>13</dim>
+					<dim>13</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="93" name="conv2d_9/Conv2D/YoloRegion" type="RegionYolo" version="opset1">
+			<data anchors="10, 14, 23, 27, 37, 58, 81, 82, 135, 169, 344, 319" axis="1" coords="4" classes="80" end_axis="3" num="6" do_softmax="false" mask="3, 4, 5" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>255</dim>
+					<dim>13</dim>
+					<dim>13</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="conv2d_9/Conv2D/YoloRegion,conv2d_9/Conv2D/YoloRegion:0">
+					<dim>1</dim>
+					<dim>255</dim>
+					<dim>13</dim>
+					<dim>13</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="95" name="batch_normalization_9/FusedBatchNorm/mean/Fused_Mul__copy_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="128, 256, 1, 1" offset="15731042" size="65536" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>128</dim>
+					<dim>256</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="96" name="batch_normalization_9/FusedBatchNorm/mean/Fused_Mul__copy" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>128</dim>
+					<dim>256</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="conv2d_10/Conv2D/ReadVariableOp:0">
+					<dim>128</dim>
+					<dim>256</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="97" name="conv2d_10/Conv2D" type="Convolution" version="opset1">
+			<data strides="1, 1" dilations="1, 1" pads_begin="0, 0" pads_end="0, 0" auto_pad="same_upper" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>13</dim>
+					<dim>13</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>128</dim>
+					<dim>256</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32">
+					<dim>1</dim>
+					<dim>128</dim>
+					<dim>13</dim>
+					<dim>13</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="98" name="data_add_23932398_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="1, 128, 1, 1" offset="15796578" size="256" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>128</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="99" name="data_add_23932398" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>128</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>128</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="100" name="batch_normalization_9/FusedBatchNorm/variance/Fused_Add_" type="Add" version="opset1">
+			<data auto_broadcast="numpy" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>128</dim>
+					<dim>13</dim>
+					<dim>13</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>128</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="batch_normalization_9/FusedBatchNorm:0">
+					<dim>1</dim>
+					<dim>128</dim>
+					<dim>13</dim>
+					<dim>13</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="101" name="leaky_re_lu_9/LeakyRelu/weights32404389_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="1" offset="928" size="2" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="102" name="leaky_re_lu_9/LeakyRelu/weights32404389" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="103" name="leaky_re_lu_9/LeakyRelu" type="PReLU" version="opset1">
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>128</dim>
+					<dim>13</dim>
+					<dim>13</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="leaky_re_lu_9/LeakyRelu:0">
+					<dim>1</dim>
+					<dim>128</dim>
+					<dim>13</dim>
+					<dim>13</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="104" name="up_sampling2d/Shape" type="ShapeOf" version="opset3">
+			<data output_type="i32" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>128</dim>
+					<dim>13</dim>
+					<dim>13</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="I32">
+					<dim>4</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="105" name="up_sampling2d/Shape/GatherNCHWtoNHWC_input_port_1/value29914395" type="Const" version="opset1">
+			<data element_type="i32" shape="4" offset="15796834" size="16" />
+			<output>
+				<port id="0" precision="I32">
+					<dim>4</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="106" name="up_sampling2d/Shape/GatherNCHWtoNHWC_input_port_2/value29934491" type="Const" version="opset1">
+			<data element_type="i64" shape="" offset="15796850" size="8" />
+			<output>
+				<port id="0" precision="I64" />
+			</output>
+		</layer>
+		<layer id="107" name="up_sampling2d/Shape/GatherNCHWtoNHWC" type="Gather" version="opset8">
+			<data batch_dims="0" />
+			<input>
+				<port id="0" precision="I32">
+					<dim>4</dim>
+				</port>
+				<port id="1" precision="I32">
+					<dim>4</dim>
+				</port>
+				<port id="2" precision="I64" />
+			</input>
+			<output>
+				<port id="3" precision="I32" names="up_sampling2d/Shape:0">
+					<dim>4</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="108" name="up_sampling2d/strided_slice/stack" type="Const" version="opset1">
+			<data element_type="i64" shape="1" offset="15796858" size="8" />
+			<output>
+				<port id="0" precision="I64" names="up_sampling2d/strided_slice/stack:0">
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="109" name="up_sampling2d/strided_slice/stack_1" type="Const" version="opset1">
+			<data element_type="i64" shape="1" offset="15796866" size="8" />
+			<output>
+				<port id="0" precision="I64" names="up_sampling2d/strided_slice/stack_1:0">
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="110" name="up_sampling2d/strided_slice/stack_2" type="Const" version="opset1">
+			<data element_type="i64" shape="1" offset="15796858" size="8" />
+			<output>
+				<port id="0" precision="I64" names="up_sampling2d/strided_slice/stack_2:0">
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="111" name="up_sampling2d/strided_slice" type="StridedSlice" version="opset1">
+			<data begin_mask="0" end_mask="0" new_axis_mask="0" shrink_axis_mask="0" ellipsis_mask="0" />
+			<input>
+				<port id="0" precision="I32">
+					<dim>4</dim>
+				</port>
+				<port id="1" precision="I64">
+					<dim>1</dim>
+				</port>
+				<port id="2" precision="I64">
+					<dim>1</dim>
+				</port>
+				<port id="3" precision="I64">
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="4" precision="I32" names="up_sampling2d/strided_slice:0">
+					<dim>2</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="112" name="up_sampling2d/Const" type="Const" version="opset1">
+			<data element_type="i32" shape="2" offset="15796874" size="8" />
+			<output>
+				<port id="0" precision="I32" names="up_sampling2d/Const:0">
+					<dim>2</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="113" name="up_sampling2d/mul" type="Multiply" version="opset1">
+			<data auto_broadcast="numpy" />
+			<input>
+				<port id="0" precision="I32">
+					<dim>2</dim>
+				</port>
+				<port id="1" precision="I32">
+					<dim>2</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="I32">
+					<dim>2</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="114" name="up_sampling2d/ResizeNearestNeighbor/Cast_1" type="Convert" version="opset1">
+			<data destination_type="i64" />
+			<input>
+				<port id="0" precision="I32">
+					<dim>2</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="I64" names="up_sampling2d/mul:0">
+					<dim>2</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="115" name="188" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<input>
+				<port id="0" precision="I32">
+					<dim>2</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32">
+					<dim>2</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="116" name="up_sampling2d/ResizeNearestNeighbor/shapeof" type="ShapeOf" version="opset3">
+			<data output_type="i64" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>128</dim>
+					<dim>13</dim>
+					<dim>13</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="I64">
+					<dim>4</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="117" name="up_sampling2d/ResizeNearestNeighbor/shapeof/GatherNCHWtoNHWC_input_port_1/value29974428" type="Const" version="opset1">
+			<data element_type="i32" shape="4" offset="15796834" size="16" />
+			<output>
+				<port id="0" precision="I32">
+					<dim>4</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="118" name="up_sampling2d/ResizeNearestNeighbor/shapeof/GatherNCHWtoNHWC_input_port_2/value29994377" type="Const" version="opset1">
+			<data element_type="i64" shape="" offset="15796850" size="8" />
+			<output>
+				<port id="0" precision="I64" />
+			</output>
+		</layer>
+		<layer id="119" name="up_sampling2d/ResizeNearestNeighbor/shapeof/GatherNCHWtoNHWC" type="Gather" version="opset8">
+			<data batch_dims="0" />
+			<input>
+				<port id="0" precision="I64">
+					<dim>4</dim>
+				</port>
+				<port id="1" precision="I32">
+					<dim>4</dim>
+				</port>
+				<port id="2" precision="I64" />
+			</input>
+			<output>
+				<port id="3" precision="I64">
+					<dim>4</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="120" name="up_sampling2d/ResizeNearestNeighbor/StridedSlice_input_port_1/value" type="Const" version="opset1">
+			<data element_type="i64" shape="1" offset="15796858" size="8" />
+			<output>
+				<port id="0" precision="I64">
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="121" name="up_sampling2d/ResizeNearestNeighbor/StridedSlice_input_port_2/value" type="Const" version="opset1">
+			<data element_type="i64" shape="1" offset="15796866" size="8" />
+			<output>
+				<port id="0" precision="I64">
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="122" name="up_sampling2d/ResizeNearestNeighbor/StridedSlice_input_port_3/value" type="Const" version="opset1">
+			<data element_type="i64" shape="1" offset="15796858" size="8" />
+			<output>
+				<port id="0" precision="I64">
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="123" name="up_sampling2d/ResizeNearestNeighbor/StridedSlice" type="StridedSlice" version="opset1">
+			<data begin_mask="0" end_mask="0" new_axis_mask="0" shrink_axis_mask="0" ellipsis_mask="0" />
+			<input>
+				<port id="0" precision="I64">
+					<dim>4</dim>
+				</port>
+				<port id="1" precision="I64">
+					<dim>1</dim>
+				</port>
+				<port id="2" precision="I64">
+					<dim>1</dim>
+				</port>
+				<port id="3" precision="I64">
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="4" precision="I64">
+					<dim>2</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="124" name="187" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<input>
+				<port id="0" precision="I64">
+					<dim>2</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32">
+					<dim>2</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="125" name="up_sampling2d/ResizeNearestNeighbor/Div" type="Divide" version="opset1">
+			<data auto_broadcast="numpy" m_pythondiv="true" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>2</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>2</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32">
+					<dim>2</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="126" name="30984485" type="Const" version="opset1">
+			<data element_type="i64" shape="2" offset="15796882" size="16" />
+			<output>
+				<port id="0" precision="I64">
+					<dim>2</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="127" name="up_sampling2d/ResizeNearestNeighbor" type="Interpolate" version="opset4">
+			<data mode="nearest" shape_calculation_mode="sizes" coordinate_transformation_mode="asymmetric" nearest_mode="floor" antialias="false" pads_begin="0, 0, 0, 0" pads_end="0, 0, 0, 0" cube_coeff="-0.75" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>128</dim>
+					<dim>13</dim>
+					<dim>13</dim>
+				</port>
+				<port id="1" precision="I64">
+					<dim>2</dim>
+				</port>
+				<port id="2" precision="FP32">
+					<dim>2</dim>
+				</port>
+				<port id="3" precision="I64">
+					<dim>2</dim>
+				</port>
+			</input>
+			<output>
+				<port id="4" precision="FP32" names="up_sampling2d/ResizeNearestNeighbor:0">
+					<dim>1</dim>
+					<dim>128</dim>
+					<dim>26</dim>
+					<dim>26</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="128" name="concatenate/concat" type="Concat" version="opset1">
+			<data axis="1" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>128</dim>
+					<dim>26</dim>
+					<dim>26</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>26</dim>
+					<dim>26</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="concatenate/concat:0">
+					<dim>1</dim>
+					<dim>384</dim>
+					<dim>26</dim>
+					<dim>26</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="129" name="batch_normalization_10/FusedBatchNorm/mean/Fused_Mul__copy_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="256, 384, 3, 3" offset="15796898" size="1769472" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>256</dim>
+					<dim>384</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="130" name="batch_normalization_10/FusedBatchNorm/mean/Fused_Mul__copy" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>256</dim>
+					<dim>384</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="conv2d_11/Conv2D/ReadVariableOp:0">
+					<dim>256</dim>
+					<dim>384</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="131" name="conv2d_11/Conv2D" type="Convolution" version="opset1">
+			<data strides="1, 1" dilations="1, 1" pads_begin="0, 0" pads_end="0, 0" auto_pad="same_upper" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>384</dim>
+					<dim>26</dim>
+					<dim>26</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>256</dim>
+					<dim>384</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>26</dim>
+					<dim>26</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="132" name="data_add_24012406_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="1, 256, 1, 1" offset="17566370" size="512" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="133" name="data_add_24012406" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="134" name="batch_normalization_10/FusedBatchNorm/variance/Fused_Add_" type="Add" version="opset1">
+			<data auto_broadcast="numpy" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>26</dim>
+					<dim>26</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="batch_normalization_10/FusedBatchNorm:0">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>26</dim>
+					<dim>26</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="135" name="leaky_re_lu_10/LeakyRelu/weights32324503_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="1" offset="928" size="2" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="136" name="leaky_re_lu_10/LeakyRelu/weights32324503" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="137" name="leaky_re_lu_10/LeakyRelu" type="PReLU" version="opset1">
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>26</dim>
+					<dim>26</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="leaky_re_lu_10/LeakyRelu:0">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>26</dim>
+					<dim>26</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="138" name="conv2d_12/Conv2D/ReadVariableOp_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="255, 256, 1, 1" offset="17566882" size="130560" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>255</dim>
+					<dim>256</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="139" name="conv2d_12/Conv2D/ReadVariableOp" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>255</dim>
+					<dim>256</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="conv2d_12/Conv2D/ReadVariableOp:0">
+					<dim>255</dim>
+					<dim>256</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="140" name="conv2d_12/Conv2D" type="Convolution" version="opset1">
+			<data strides="1, 1" dilations="1, 1" pads_begin="0, 0" pads_end="0, 0" auto_pad="same_upper" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>26</dim>
+					<dim>26</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>255</dim>
+					<dim>256</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="conv2d_12/Conv2D:0">
+					<dim>1</dim>
+					<dim>255</dim>
+					<dim>26</dim>
+					<dim>26</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="141" name="conv2d_12/Conv2D/YoloRegion" type="RegionYolo" version="opset1">
+			<data anchors="10, 14, 23, 27, 37, 58, 81, 82, 135, 169, 344, 319" axis="1" coords="4" classes="80" end_axis="3" num="6" do_softmax="false" mask="1, 2, 3" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>255</dim>
+					<dim>26</dim>
+					<dim>26</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="conv2d_12/Conv2D/YoloRegion,conv2d_12/Conv2D/YoloRegion:0">
+					<dim>1</dim>
+					<dim>255</dim>
+					<dim>26</dim>
+					<dim>26</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="142" name="conv2d_12/Conv2D/YoloRegion/sink_port_0" type="Result" version="opset1">
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>255</dim>
+					<dim>26</dim>
+					<dim>26</dim>
+				</port>
+			</input>
+		</layer>
+		<layer id="94" name="conv2d_9/Conv2D/YoloRegion/sink_port_0" type="Result" version="opset1">
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>255</dim>
+					<dim>13</dim>
+					<dim>13</dim>
+				</port>
+			</input>
+		</layer>
+	</layers>
+	<edges>
+		<edge from-layer="0" from-port="0" to-layer="2" to-port="0" />
+		<edge from-layer="1" from-port="0" to-layer="2" to-port="1" />
+		<edge from-layer="2" from-port="2" to-layer="5" to-port="0" />
+		<edge from-layer="3" from-port="0" to-layer="4" to-port="0" />
+		<edge from-layer="4" from-port="1" to-layer="5" to-port="1" />
+		<edge from-layer="5" from-port="2" to-layer="8" to-port="0" />
+		<edge from-layer="6" from-port="0" to-layer="7" to-port="0" />
+		<edge from-layer="7" from-port="1" to-layer="8" to-port="1" />
+		<edge from-layer="8" from-port="2" to-layer="11" to-port="0" />
+		<edge from-layer="9" from-port="0" to-layer="10" to-port="0" />
+		<edge from-layer="10" from-port="1" to-layer="11" to-port="1" />
+		<edge from-layer="11" from-port="2" to-layer="12" to-port="0" />
+		<edge from-layer="12" from-port="1" to-layer="15" to-port="0" />
+		<edge from-layer="13" from-port="0" to-layer="14" to-port="0" />
+		<edge from-layer="14" from-port="1" to-layer="15" to-port="1" />
+		<edge from-layer="15" from-port="2" to-layer="18" to-port="0" />
+		<edge from-layer="16" from-port="0" to-layer="17" to-port="0" />
+		<edge from-layer="17" from-port="1" to-layer="18" to-port="1" />
+		<edge from-layer="18" from-port="2" to-layer="21" to-port="0" />
+		<edge from-layer="19" from-port="0" to-layer="20" to-port="0" />
+		<edge from-layer="20" from-port="1" to-layer="21" to-port="1" />
+		<edge from-layer="21" from-port="2" to-layer="22" to-port="0" />
+		<edge from-layer="22" from-port="1" to-layer="25" to-port="0" />
+		<edge from-layer="23" from-port="0" to-layer="24" to-port="0" />
+		<edge from-layer="24" from-port="1" to-layer="25" to-port="1" />
+		<edge from-layer="25" from-port="2" to-layer="28" to-port="0" />
+		<edge from-layer="26" from-port="0" to-layer="27" to-port="0" />
+		<edge from-layer="27" from-port="1" to-layer="28" to-port="1" />
+		<edge from-layer="28" from-port="2" to-layer="31" to-port="0" />
+		<edge from-layer="29" from-port="0" to-layer="30" to-port="0" />
+		<edge from-layer="30" from-port="1" to-layer="31" to-port="1" />
+		<edge from-layer="31" from-port="2" to-layer="32" to-port="0" />
+		<edge from-layer="32" from-port="1" to-layer="35" to-port="0" />
+		<edge from-layer="33" from-port="0" to-layer="34" to-port="0" />
+		<edge from-layer="34" from-port="1" to-layer="35" to-port="1" />
+		<edge from-layer="35" from-port="2" to-layer="38" to-port="0" />
+		<edge from-layer="36" from-port="0" to-layer="37" to-port="0" />
+		<edge from-layer="37" from-port="1" to-layer="38" to-port="1" />
+		<edge from-layer="38" from-port="2" to-layer="41" to-port="0" />
+		<edge from-layer="39" from-port="0" to-layer="40" to-port="0" />
+		<edge from-layer="40" from-port="1" to-layer="41" to-port="1" />
+		<edge from-layer="41" from-port="2" to-layer="42" to-port="0" />
+		<edge from-layer="42" from-port="1" to-layer="45" to-port="0" />
+		<edge from-layer="43" from-port="0" to-layer="44" to-port="0" />
+		<edge from-layer="44" from-port="1" to-layer="45" to-port="1" />
+		<edge from-layer="45" from-port="2" to-layer="48" to-port="0" />
+		<edge from-layer="46" from-port="0" to-layer="47" to-port="0" />
+		<edge from-layer="47" from-port="1" to-layer="48" to-port="1" />
+		<edge from-layer="48" from-port="2" to-layer="51" to-port="0" />
+		<edge from-layer="49" from-port="0" to-layer="50" to-port="0" />
+		<edge from-layer="50" from-port="1" to-layer="51" to-port="1" />
+		<edge from-layer="51" from-port="2" to-layer="52" to-port="0" />
+		<edge from-layer="51" from-port="2" to-layer="128" to-port="1" />
+		<edge from-layer="52" from-port="1" to-layer="55" to-port="0" />
+		<edge from-layer="53" from-port="0" to-layer="54" to-port="0" />
+		<edge from-layer="54" from-port="1" to-layer="55" to-port="1" />
+		<edge from-layer="55" from-port="2" to-layer="58" to-port="0" />
+		<edge from-layer="56" from-port="0" to-layer="57" to-port="0" />
+		<edge from-layer="57" from-port="1" to-layer="58" to-port="1" />
+		<edge from-layer="58" from-port="2" to-layer="61" to-port="0" />
+		<edge from-layer="59" from-port="0" to-layer="60" to-port="0" />
+		<edge from-layer="60" from-port="1" to-layer="61" to-port="1" />
+		<edge from-layer="61" from-port="2" to-layer="62" to-port="0" />
+		<edge from-layer="62" from-port="1" to-layer="65" to-port="0" />
+		<edge from-layer="63" from-port="0" to-layer="64" to-port="0" />
+		<edge from-layer="64" from-port="1" to-layer="65" to-port="1" />
+		<edge from-layer="65" from-port="2" to-layer="68" to-port="0" />
+		<edge from-layer="66" from-port="0" to-layer="67" to-port="0" />
+		<edge from-layer="67" from-port="1" to-layer="68" to-port="1" />
+		<edge from-layer="68" from-port="2" to-layer="71" to-port="0" />
+		<edge from-layer="69" from-port="0" to-layer="70" to-port="0" />
+		<edge from-layer="70" from-port="1" to-layer="71" to-port="1" />
+		<edge from-layer="71" from-port="2" to-layer="74" to-port="0" />
+		<edge from-layer="72" from-port="0" to-layer="73" to-port="0" />
+		<edge from-layer="73" from-port="1" to-layer="74" to-port="1" />
+		<edge from-layer="74" from-port="2" to-layer="77" to-port="0" />
+		<edge from-layer="75" from-port="0" to-layer="76" to-port="0" />
+		<edge from-layer="76" from-port="1" to-layer="77" to-port="1" />
+		<edge from-layer="77" from-port="2" to-layer="80" to-port="0" />
+		<edge from-layer="78" from-port="0" to-layer="79" to-port="0" />
+		<edge from-layer="79" from-port="1" to-layer="80" to-port="1" />
+		<edge from-layer="80" from-port="2" to-layer="83" to-port="0" />
+		<edge from-layer="80" from-port="2" to-layer="97" to-port="0" />
+		<edge from-layer="81" from-port="0" to-layer="82" to-port="0" />
+		<edge from-layer="82" from-port="1" to-layer="83" to-port="1" />
+		<edge from-layer="83" from-port="2" to-layer="86" to-port="0" />
+		<edge from-layer="84" from-port="0" to-layer="85" to-port="0" />
+		<edge from-layer="85" from-port="1" to-layer="86" to-port="1" />
+		<edge from-layer="86" from-port="2" to-layer="89" to-port="0" />
+		<edge from-layer="87" from-port="0" to-layer="88" to-port="0" />
+		<edge from-layer="88" from-port="1" to-layer="89" to-port="1" />
+		<edge from-layer="89" from-port="2" to-layer="92" to-port="0" />
+		<edge from-layer="90" from-port="0" to-layer="91" to-port="0" />
+		<edge from-layer="91" from-port="1" to-layer="92" to-port="1" />
+		<edge from-layer="92" from-port="2" to-layer="93" to-port="0" />
+		<edge from-layer="93" from-port="1" to-layer="94" to-port="0" />
+		<edge from-layer="95" from-port="0" to-layer="96" to-port="0" />
+		<edge from-layer="96" from-port="1" to-layer="97" to-port="1" />
+		<edge from-layer="97" from-port="2" to-layer="100" to-port="0" />
+		<edge from-layer="98" from-port="0" to-layer="99" to-port="0" />
+		<edge from-layer="99" from-port="1" to-layer="100" to-port="1" />
+		<edge from-layer="100" from-port="2" to-layer="103" to-port="0" />
+		<edge from-layer="101" from-port="0" to-layer="102" to-port="0" />
+		<edge from-layer="102" from-port="1" to-layer="103" to-port="1" />
+		<edge from-layer="103" from-port="2" to-layer="104" to-port="0" />
+		<edge from-layer="103" from-port="2" to-layer="127" to-port="0" />
+		<edge from-layer="103" from-port="2" to-layer="116" to-port="0" />
+		<edge from-layer="104" from-port="1" to-layer="107" to-port="0" />
+		<edge from-layer="105" from-port="0" to-layer="107" to-port="1" />
+		<edge from-layer="106" from-port="0" to-layer="107" to-port="2" />
+		<edge from-layer="107" from-port="3" to-layer="111" to-port="0" />
+		<edge from-layer="108" from-port="0" to-layer="111" to-port="1" />
+		<edge from-layer="109" from-port="0" to-layer="111" to-port="2" />
+		<edge from-layer="110" from-port="0" to-layer="111" to-port="3" />
+		<edge from-layer="111" from-port="4" to-layer="113" to-port="0" />
+		<edge from-layer="112" from-port="0" to-layer="113" to-port="1" />
+		<edge from-layer="113" from-port="2" to-layer="115" to-port="0" />
+		<edge from-layer="113" from-port="2" to-layer="114" to-port="0" />
+		<edge from-layer="114" from-port="1" to-layer="127" to-port="1" />
+		<edge from-layer="115" from-port="1" to-layer="125" to-port="0" />
+		<edge from-layer="116" from-port="1" to-layer="119" to-port="0" />
+		<edge from-layer="117" from-port="0" to-layer="119" to-port="1" />
+		<edge from-layer="118" from-port="0" to-layer="119" to-port="2" />
+		<edge from-layer="119" from-port="3" to-layer="123" to-port="0" />
+		<edge from-layer="120" from-port="0" to-layer="123" to-port="1" />
+		<edge from-layer="121" from-port="0" to-layer="123" to-port="2" />
+		<edge from-layer="122" from-port="0" to-layer="123" to-port="3" />
+		<edge from-layer="123" from-port="4" to-layer="124" to-port="0" />
+		<edge from-layer="124" from-port="1" to-layer="125" to-port="1" />
+		<edge from-layer="125" from-port="2" to-layer="127" to-port="2" />
+		<edge from-layer="126" from-port="0" to-layer="127" to-port="3" />
+		<edge from-layer="127" from-port="4" to-layer="128" to-port="0" />
+		<edge from-layer="128" from-port="2" to-layer="131" to-port="0" />
+		<edge from-layer="129" from-port="0" to-layer="130" to-port="0" />
+		<edge from-layer="130" from-port="1" to-layer="131" to-port="1" />
+		<edge from-layer="131" from-port="2" to-layer="134" to-port="0" />
+		<edge from-layer="132" from-port="0" to-layer="133" to-port="0" />
+		<edge from-layer="133" from-port="1" to-layer="134" to-port="1" />
+		<edge from-layer="134" from-port="2" to-layer="137" to-port="0" />
+		<edge from-layer="135" from-port="0" to-layer="136" to-port="0" />
+		<edge from-layer="136" from-port="1" to-layer="137" to-port="1" />
+		<edge from-layer="137" from-port="2" to-layer="140" to-port="0" />
+		<edge from-layer="138" from-port="0" to-layer="139" to-port="0" />
+		<edge from-layer="139" from-port="1" to-layer="140" to-port="1" />
+		<edge from-layer="140" from-port="2" to-layer="141" to-port="0" />
+		<edge from-layer="141" from-port="1" to-layer="142" to-port="0" />
+	</edges>
+	<rt_info>
+		<MO_version value="2023.0.0-10926-b4452d56304-releases/2023/0" />
+		<Runtime_version value="2023.0.0-10926-b4452d56304-releases/2023/0" />
+		<conversion_parameters>
+			<compress_to_fp16 value="True" />
+			<framework value="tf" />
+			<input value="image_input" />
+			<input_model value="DIR/yolo-v3-tiny-tf.pb" />
+			<input_shape value="[1, 416, 416, 3]" />
+			<is_python_api_used value="False" />
+			<layout value="image_input(NHWC)" />
+			<model_name value="yolo-v3-tiny-tf" />
+			<output_dir value="DIR" />
+			<scale_values value="image_input[255]" />
+			<transformations_config value="DIR/yolo-v3-tiny-tf.json" />
+		</conversion_parameters>
+		<legacy_frontend value="True" />
+	</rt_info>
+</net>
