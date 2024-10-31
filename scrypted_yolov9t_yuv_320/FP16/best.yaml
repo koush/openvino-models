@@ -1,0 +1,5 @@
+stride: 32
+names:
+  0: person
+  1: vehicle
+  2: animal
